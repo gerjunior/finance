@@ -2,7 +2,7 @@
   "name": "finance",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
+  "main": "src/shared/infra/http/server.ts",
   "scripts": {
     "dev": "nodemon"
   },
