@@ -11,8 +11,11 @@ datasource db {
 }
 
 model Category {
-  name      String   @id @unique @default(uuid())
-  updated   DateTime @updatedAt
-  amount    Decimal
+  id          String  @id @unique @default(uuid())
+  name        String
+  description String
+  amount      Decimal
+
   createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
 }
