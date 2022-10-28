@@ -21,9 +21,10 @@ model Category {
 }
 
 model Transaction {
-  id         String   @id @unique @default(uuid())
-  amount     Decimal  @db.Money
-  occurredAt DateTime?
+  id          String    @id @unique @default(uuid())
+  description String?   @db.VarChar(300)
+  amount      Decimal   @db.Money
+  occurredAt  DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
