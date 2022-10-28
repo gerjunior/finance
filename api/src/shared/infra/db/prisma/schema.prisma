@@ -9,3 +9,25 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Category {
+  id   String @id @unique @default(uuid())
+  name String @db.VarChar(30)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions Transaction[] @relation("TransactionCategory")
+}
+
+model Transaction {
+  id         String   @id @unique @default(uuid())
+  amount     Decimal  @db.Money
+  occurredAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoryId String?
+  category   Category? @relation("TransactionCategory", fields: [categoryId], references: [id])
+}
