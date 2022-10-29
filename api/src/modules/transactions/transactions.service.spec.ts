@@ -3,14 +3,17 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionsService } from './transactions.service';
 import FakeTransactionsRepository from './repositories/fakes/transactions.fake-repository.ts';
 
-jest.mock('node:crypto', () => ({
-  randomUUID: () => '1',
-}));
+const id = '1';
 const date = '2022-10-29T00:00:00.000Z';
+
+jest.mock('node:crypto', () => ({
+  randomUUID: () => id,
+}));
 jest.useFakeTimers().setSystemTime(new Date(date));
 
 describe('TransactionsService', () => {
   let service: TransactionsService;
+  let transactionsRepository: FakeTransactionsRepository;
 
   beforeEach(async () => {
     jest.clearAllMocks();
@@ -26,10 +29,35 @@ describe('TransactionsService', () => {
     }).compile();
 
     service = module.get<TransactionsService>(TransactionsService);
+    transactionsRepository = module.get<FakeTransactionsRepository>(
+      'TransactionsRepository',
+    );
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('#getAll', () => {
+    it('should be able to get all the transactions', async () => {
+      transactionsRepository.create({ amount: 500 });
+      transactionsRepository.create({ amount: 200 });
+
+      await expect(service.getAll()).resolves.toEqual([
+        {
+          amount: 500,
+          createdAt: date,
+          id,
+          updatedAt: date,
+        },
+        {
+          amount: 200,
+          createdAt: date,
+          id,
+          updatedAt: date,
+        },
+      ]);
+    });
   });
 
   describe('#create', () => {
@@ -39,7 +67,7 @@ describe('TransactionsService', () => {
       };
 
       await expect(service.create(data)).resolves.toEqual({
-        id: '1',
+        id,
         amount: 400,
         description: undefined,
         createdAt: date,

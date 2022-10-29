@@ -8,6 +8,10 @@ import TransactionsRepositoryInterface from '@/modules/transactions/repositories
 class TransactionsRepository implements TransactionsRepositoryInterface {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getAll() {
+    return this.prisma.transaction.findMany();
+  }
+
   async create(data: Prisma.TransactionCreateInput) {
     return this.prisma.transaction.create({ data });
   }

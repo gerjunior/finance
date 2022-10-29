@@ -9,6 +9,10 @@ export class TransactionsService {
     private readonly transactionsRepository: ITransactionsRepository,
   ) {}
 
+  async getAll() {
+    return this.transactionsRepository.getAll();
+  }
+
   async create({ amount, occurredAt, description }: CreateTransactionDTO) {
     return this.transactionsRepository.create({
       description,

@@ -9,6 +9,10 @@ import TransactionsRepositoryInterface from '@/modules/transactions/repositories
 class FakeTransactionsRepository implements TransactionsRepositoryInterface {
   private transactions: Transaction[] = [];
 
+  async getAll() {
+    return this.transactions;
+  }
+
   async create(data: Prisma.TransactionCreateInput) {
     const transaction: Prisma.TransactionCreateInput = {
       id: randomUUID(),

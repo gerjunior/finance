@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 
 import JoiValidationPipe from '@/shared/pipes/joi.validation.pipe';
 import { TransactionsService } from './transactions.service';
@@ -9,6 +9,11 @@ import CreateTransactionDTO, {
 @Controller('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
+
+  @Get()
+  getAll() {
+    return this.transactionsService.getAll();
+  }
 
   @Post()
   @UsePipes(new JoiValidationPipe(createTransactionSchema))
