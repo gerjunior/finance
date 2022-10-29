@@ -120,4 +120,18 @@ describe('TransactionsService', () => {
       expect(result).toEqual(expected);
     });
   });
+
+  describe('#delete', () => {
+    it('should be able to delete a transaction', async () => {
+      transactionsRepository.create({ amount: 400 });
+
+      await expect(service.delete(id)).resolves.toBeUndefined();
+      const transactions = await transactionsRepository.getAll();
+      expect(transactions.length).toEqual(0);
+    });
+
+    it('should return normally if the resource has already been deleted', async () => {
+      await expect(service.delete(id)).resolves.toBeUndefined();
+    });
+  });
 });

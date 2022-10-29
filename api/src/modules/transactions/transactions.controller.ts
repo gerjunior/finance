@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -45,5 +47,11 @@ export class TransactionsController {
     @Body(useSchema(updateTransactionSchema)) data: UpdateTransactionDTO,
   ) {
     return this.transactionsService.update(id, data);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  delete(@Param('id') id: string) {
+    return this.transactionsService.delete(id);
   }
 }

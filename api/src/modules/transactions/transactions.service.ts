@@ -38,4 +38,13 @@ export class TransactionsService {
 
     return this.transactionsRepository.update(id, data);
   }
+
+  async delete(id: string) {
+    const transaction = await this.transactionsRepository.get(id);
+    if (!transaction) {
+      return;
+    }
+
+    return this.transactionsRepository.delete(id);
+  }
 }

@@ -46,6 +46,12 @@ class FakeTransactionsRepository implements TransactionsRepositoryInterface {
 
     return updatedTransaction;
   }
+
+  async delete(id: string) {
+    this.transactions = this.transactions.filter(
+      (transaction) => transaction.id !== id,
+    );
+  }
 }
 
 export default FakeTransactionsRepository;
