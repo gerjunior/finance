@@ -61,18 +61,31 @@ describe('TransactionsService', () => {
   });
 
   describe('#create', () => {
-    it('should be able to create a transaction with only the required fields', async () => {
-      const data = {
-        amount: 400,
-      };
+    const defaultFields = {
+      id: '1',
+      description: undefined,
+      createdAt: date,
+      updatedAt: date,
+      occurredAt: date,
+    };
 
+    it.each([
+      {
+        with: 'informing only the required fields',
+        data: { amount: 400 },
+      },
+      {
+        with: 'informing the optional fields',
+        data: {
+          amount: 400,
+          description: 'Incoming from Project S',
+          occurredAt: '2022-10-20T00:00:00.000Z',
+        },
+      },
+    ])('it should be able to create a transaction $when', async ({ data }) => {
       await expect(service.create(data)).resolves.toEqual({
-        id,
-        amount: 400,
-        description: undefined,
-        createdAt: date,
-        updatedAt: date,
-        occurredAt: date,
+        ...defaultFields,
+        ...data,
       });
     });
   });
