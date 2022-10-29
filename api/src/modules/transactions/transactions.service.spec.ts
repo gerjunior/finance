@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { UnprocessableEntityException } from '@nestjs/common';
 
 import { TransactionsService } from './transactions.service';
 import FakeTransactionsRepository from './repositories/fakes/transactions.fake-repository.ts';
-import exp from 'constants';
 
 const id = '1';
 const date = '2022-10-29T00:00:00.000Z';
@@ -52,7 +52,7 @@ describe('TransactionsService', () => {
 
   describe('#get', () => {
     it('should be able to get a transaction', async () => {
-      transactionsRepository.create({ amount: 500 });
+      await transactionsRepository.create({ amount: 500 });
 
       await expect(service.get(id)).resolves.toMatchObject({ id });
     });
@@ -89,6 +89,35 @@ describe('TransactionsService', () => {
         ...defaultFields,
         ...data,
       });
+    });
+  });
+
+  describe('#update', () => {
+    const defaultFields = {
+      id: '1',
+      description: undefined,
+      createdAt: date,
+      updatedAt: date,
+      occurredAt: date,
+    };
+
+    it('should throw an error if the informed transaction id was not found', async () => {
+      await expect(service.update(id, {})).rejects.toThrow(
+        UnprocessableEntityException,
+      );
+    });
+
+    it('should be able to update the transaction', async () => {
+      transactionsRepository.create({ amount: 400 });
+
+      const data = {
+        description: 'updated description',
+        occurredAt: '2022-10-20T00:00:00.000Z',
+      };
+
+      const result = await service.update(id, data);
+      const expected = { ...defaultFields, amount: 400, ...data };
+      expect(result).toEqual(expected);
     });
   });
 });

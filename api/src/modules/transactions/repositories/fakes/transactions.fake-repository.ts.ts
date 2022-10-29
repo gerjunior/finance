@@ -9,6 +9,10 @@ import TransactionsRepositoryInterface from '@/modules/transactions/repositories
 class FakeTransactionsRepository implements TransactionsRepositoryInterface {
   private transactions: Transaction[] = [];
 
+  private getIndex(id: string) {
+    return this.transactions.findIndex((transaction) => transaction.id === id);
+  }
+
   async getAll() {
     return this.transactions;
   }
@@ -28,6 +32,19 @@ class FakeTransactionsRepository implements TransactionsRepositoryInterface {
     this.transactions.push(transaction as Transaction);
 
     return transaction as Transaction;
+  }
+
+  async update(id: string, data: Prisma.TransactionUpdateInput) {
+    const idx = this.getIndex(id);
+
+    const updatedTransaction = {
+      ...this.transactions[idx],
+      ...data,
+    } as unknown as Transaction;
+
+    this.transactions[idx] = updatedTransaction;
+
+    return updatedTransaction;
   }
 }
 

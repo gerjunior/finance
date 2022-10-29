@@ -19,6 +19,10 @@ class TransactionsRepository implements TransactionsRepositoryInterface {
   async create(data: Prisma.TransactionCreateInput) {
     return this.prisma.transaction.create({ data });
   }
+
+  async update(id: string, data: Prisma.TransactionUpdateInput) {
+    return this.prisma.transaction.update({ data, where: { id } });
+  }
 }
 
 export default TransactionsRepository;

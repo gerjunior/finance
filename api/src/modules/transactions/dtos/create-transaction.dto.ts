@@ -8,7 +8,7 @@ class CreateTransactionDTO {
 
 export const createTransactionSchema = Joi.object<CreateTransactionDTO>({
   amount: Joi.number().positive().precision(2).required(),
-  description: Joi.string().max(300),
+  description: Joi.string().max(300).optional(),
   occurredAt: Joi.date().iso().optional(),
 }).unknown(false);
 
