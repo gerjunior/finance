@@ -9,6 +9,10 @@ export class TransactionsService {
     private readonly transactionsRepository: ITransactionsRepository,
   ) {}
 
+  async get(id: string) {
+    return this.transactionsRepository.get(id);
+  }
+
   async getAll() {
     return this.transactionsRepository.getAll();
   }

@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { TransactionsService } from './transactions.service';
 import FakeTransactionsRepository from './repositories/fakes/transactions.fake-repository.ts';
+import exp from 'constants';
 
 const id = '1';
 const date = '2022-10-29T00:00:00.000Z';
@@ -43,20 +44,21 @@ describe('TransactionsService', () => {
       transactionsRepository.create({ amount: 500 });
       transactionsRepository.create({ amount: 200 });
 
-      await expect(service.getAll()).resolves.toEqual([
-        {
-          amount: 500,
-          createdAt: date,
-          id,
-          updatedAt: date,
-        },
-        {
-          amount: 200,
-          createdAt: date,
-          id,
-          updatedAt: date,
-        },
-      ]);
+      const result = await service.getAll();
+
+      expect(result.length).toEqual(2);
+    });
+  });
+
+  describe('#get', () => {
+    it('should be able to get a transaction', async () => {
+      transactionsRepository.create({ amount: 500 });
+
+      await expect(service.get(id)).resolves.toMatchObject({ id });
+    });
+
+    it('should return undefined if the transaction was not found', async () => {
+      await expect(service.get(id)).resolves.toBeUndefined();
     });
   });
 

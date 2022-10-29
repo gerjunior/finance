@@ -13,6 +13,10 @@ class FakeTransactionsRepository implements TransactionsRepositoryInterface {
     return this.transactions;
   }
 
+  async get(id: string) {
+    return this.transactions.find((transaction) => transaction.id === id);
+  }
+
   async create(data: Prisma.TransactionCreateInput) {
     const transaction: Prisma.TransactionCreateInput = {
       id: randomUUID(),
