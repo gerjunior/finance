@@ -26,8 +26,9 @@ model Transaction {
   amount      Decimal   @db.Decimal(12, 2)
   occurredAt  DateTime?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   categoryId String?
   category   Category? @relation("TransactionCategory", fields: [categoryId], references: [id])
