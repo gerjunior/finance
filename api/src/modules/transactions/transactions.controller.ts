@@ -1,25 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Param,
-  Patch,
-  Post,
-  UsePipes,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, UsePipes } from '@nestjs/common';
 
-import JoiValidationPipe, {
-  useSchema,
-} from '@/shared/pipes/joi.validation.pipe';
+import JoiValidationPipe, { useSchema } from '@/shared/pipes/joi.validation.pipe';
 import { TransactionsService } from './transactions.service';
-import CreateTransactionDTO, {
-  createTransactionSchema,
-} from './dtos/create-transaction.dto';
-import UpdateTransactionDTO, {
-  updateTransactionSchema,
-} from './dtos/update-transaction.dto';
+import CreateTransactionDTO, { createTransactionSchema } from './dtos/create-transaction.dto';
+import UpdateTransactionDTO, { updateTransactionSchema } from './dtos/update-transaction.dto';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -42,10 +26,7 @@ export class TransactionsController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body(useSchema(updateTransactionSchema)) data: UpdateTransactionDTO,
-  ) {
+  update(@Param('id') id: string, @Body(useSchema(updateTransactionSchema)) data: UpdateTransactionDTO) {
     return this.transactionsService.update(id, data);
   }
 

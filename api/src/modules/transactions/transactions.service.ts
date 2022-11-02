@@ -1,8 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
 
 import CreateTransactionDTO from './dtos/create-transaction.dto';
 import UpdateTransactionDTO from './dtos/update-transaction.dto';

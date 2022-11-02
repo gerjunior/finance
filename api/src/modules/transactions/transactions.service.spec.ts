@@ -30,9 +30,7 @@ describe('TransactionsService', () => {
     }).compile();
 
     service = module.get<TransactionsService>(TransactionsService);
-    transactionsRepository = module.get<FakeTransactionsRepository>(
-      'TransactionsRepository',
-    );
+    transactionsRepository = module.get<FakeTransactionsRepository>('TransactionsRepository');
   });
 
   it('should be defined', () => {
@@ -102,9 +100,7 @@ describe('TransactionsService', () => {
     };
 
     it('should throw an error if the informed transaction id was not found', async () => {
-      await expect(service.update(id, {})).rejects.toThrow(
-        UnprocessableEntityException,
-      );
+      await expect(service.update(id, {})).rejects.toThrow(UnprocessableEntityException);
     });
 
     it('should be able to update the transaction', async () => {

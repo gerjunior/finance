@@ -48,9 +48,7 @@ class FakeTransactionsRepository implements TransactionsRepositoryInterface {
   }
 
   async delete(id: string) {
-    this.transactions = this.transactions.filter(
-      (transaction) => transaction.id !== id,
-    );
+    this.transactions = this.transactions.filter((transaction) => transaction.id !== id);
   }
 }
 
