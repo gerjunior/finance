@@ -45,4 +45,13 @@ export class CategoriesService {
 
     return this.categoriesRepository.update(id, data);
   }
+
+  async delete(id: string) {
+    const category = await this.categoriesRepository.get(id);
+    if (!category) {
+      return;
+    }
+
+    return this.categoriesRepository.delete(id);
+  }
 }

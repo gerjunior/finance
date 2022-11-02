@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, UsePipes } from '@nestjs/common';
 
 import CreateCategoryDTO, { createCategorySchema } from './dtos/create-category.dto';
 import { CategoriesService } from './categories.service';
@@ -27,5 +27,11 @@ export class CategoriesController {
   @Patch(':id')
   async patch(@Param('id') id: string, @Body(useSchema(patchCategorySchema)) body: CreateCategoryDTO) {
     return this.categoriesService.patch(id, body);
+  }
+
+  @Delete(':id')
+  @HttpCode(204)
+  async delete(@Param('id') id: string) {
+    return this.categoriesService.delete(id);
   }
 }

@@ -88,4 +88,18 @@ describe('CategoriesService', () => {
       });
     });
   });
+
+  describe('#delete', () => {
+    it('should be able to delete a category', async () => {
+      categoriesRepository.create({ name: 'House' });
+
+      await expect(service.delete(id)).resolves.toBeUndefined();
+      const categories = await categoriesRepository.getAll();
+      expect(categories.length).toEqual(0);
+    });
+
+    it('should return normally if the resource has already been deleted', async () => {
+      await expect(service.delete(id)).resolves.toBeUndefined();
+    });
+  });
 });
