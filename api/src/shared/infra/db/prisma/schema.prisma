@@ -14,8 +14,9 @@ model Category {
   id   String @id @unique @default(uuid())
   name String @db.VarChar(30)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   transactions Transaction[] @relation("TransactionCategory")
 }
