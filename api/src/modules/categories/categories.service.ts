@@ -10,6 +10,10 @@ export class CategoriesService {
     private readonly categoriesRepository: ICategoriesRepository,
   ) {}
 
+  async getAll() {
+    return this.categoriesRepository.getAll();
+  }
+
   async create(data: CreateCategoryDTO) {
     const existingCategory = await this.categoriesRepository.getByName(data.name);
 

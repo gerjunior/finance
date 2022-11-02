@@ -28,6 +28,17 @@ describe('CategoriesService', () => {
     expect(service).toBeDefined();
   });
 
+  describe('#getAll', () => {
+    it('should be able to get all the categories', async () => {
+      categoriesRepository.create({ name: 'House' });
+      categoriesRepository.create({ name: 'Medical' });
+
+      const result = await service.getAll();
+
+      expect(result.length).toEqual(2);
+    });
+  });
+
   describe('#create', () => {
     it('should be able to create a new category', async () => {
       const data = { name: 'House' };
