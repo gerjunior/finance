@@ -14,6 +14,10 @@ export class CategoriesService {
     return this.categoriesRepository.getAll();
   }
 
+  async get(id: string) {
+    return this.categoriesRepository.get(id);
+  }
+
   async create(data: CreateCategoryDTO) {
     const existingCategory = await this.categoriesRepository.getByName(data.name);
 

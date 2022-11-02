@@ -39,6 +39,16 @@ describe('CategoriesService', () => {
     });
   });
 
+  describe('#get', () => {
+    it('should be able to get a category', async () => {
+      const data = { name: 'House' };
+      categoriesRepository.create(data);
+
+      const result = await service.get(id);
+      expect(result).toMatchObject(data);
+    });
+  });
+
   describe('#create', () => {
     it('should be able to create a new category', async () => {
       const data = { name: 'House' };
