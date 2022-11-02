@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UsePipes } from '@nestjs/common';
 
 import CreateCategoryDTO, { createCategorySchema } from './dtos/create-category.dto';
 import { CategoriesService } from './categories.service';
-import JoiValidationPipe from '@/shared/pipes/joi.validation.pipe';
+import JoiValidationPipe, { useSchema } from '@/shared/pipes/joi.validation.pipe';
+import { patchCategorySchema } from './dtos/patch-category.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
@@ -21,5 +22,10 @@ export class CategoriesController {
   @UsePipes(new JoiValidationPipe(createCategorySchema))
   async create(@Body() body: CreateCategoryDTO) {
     return this.categoriesService.create(body);
+  }
+
+  @Patch(':id')
+  async patch(@Param('id') id: string, @Body(useSchema(patchCategorySchema)) body: CreateCategoryDTO) {
+    return this.categoriesService.patch(id, body);
   }
 }

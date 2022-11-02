@@ -62,9 +62,30 @@ describe('CategoriesService', () => {
     });
 
     it('should throw when creating a category that already exists', async () => {
-      await categoriesRepository.create({ name: 'House' });
+      categoriesRepository.create({ name: 'House' });
       const data = { name: 'House' };
       await expect(service.create(data)).rejects.toThrow('There is already a category with this name');
+    });
+  });
+
+  describe('#patch', () => {
+    it('should not be able to update a category that does not exist', async () => {
+      await expect(service.patch('1 ', { name: 'House' })).rejects.toThrow('Category not found');
+    });
+
+    it('should not be able to update a category with the same name of an existing one', async () => {
+      categoriesRepository.create({ id: '1', name: 'House' });
+      categoriesRepository.create({ id: '2', name: 'Housing' });
+      await expect(service.patch('1', { name: 'Housing' })).rejects.toThrow('There is already a category with this name');
+    });
+    it('should be able to update a category', async () => {
+      categoriesRepository.create({ name: 'House' });
+      await expect(service.patch('1', { name: 'Housing' })).resolves.toEqual({
+        createdAt: date,
+        id: '1',
+        name: 'Housing',
+        updatedAt: date,
+      });
     });
   });
 });
