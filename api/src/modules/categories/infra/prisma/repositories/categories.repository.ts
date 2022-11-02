@@ -22,7 +22,7 @@ class CategoriesRepository implements ICategoriesRepository {
 
   async getByName(name: string) {
     return this.prisma.category.findFirst({
-      where: { name },
+      where: { name, deletedAt: null },
     });
   }
 
